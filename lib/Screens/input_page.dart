@@ -1,8 +1,12 @@
+import 'package:bmi_calculator/Components/round_icon_button_main_page.dart';
 import 'package:flutter/material.dart';
-import 'reusable_card.dart';
+import '../Components/reusable_card.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'card_icon.dart';
-import 'constants.dart';
+import '../Components/card_icon.dart';
+import '../constants.dart';
+import '../Components/botttom_bar.dart';
+import 'result_page.dart';
+import 'package:bmi_calculator/main_logic.dart';
 
 class InputPage extends StatefulWidget {
   @override
@@ -150,22 +154,28 @@ class _InputPageState extends State<InputPage> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
-                            FloatingActionButton(
-                              backgroundColor: Color(0xFF4C4F5E),
-                              child: Icon(
-                                Icons.add,
-                                color: Colors.white,
-                              ),
+                            RoundIconButton(
+                              plusMinusIcon: FontAwesomeIcons.minus,
+                              onPress: () {
+                                setState(
+                                  () {
+                                    weightData--;
+                                  },
+                                );
+                              },
                             ),
                             SizedBox(
-                              width: 30.0,
+                              width: 10.0,
                             ),
-                            FloatingActionButton(
-                              backgroundColor: Color(0xFF4C4F5E),
-                              child: Icon(
-                                Icons.remove,
-                                color: Colors.white,
-                              ),
+                            RoundIconButton(
+                              plusMinusIcon: FontAwesomeIcons.plus,
+                              onPress: () {
+                                setState(
+                                  () {
+                                    weightData++;
+                                  },
+                                );
+                              },
                             )
                           ],
                         )
@@ -190,23 +200,29 @@ class _InputPageState extends State<InputPage> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
-                            FloatingActionButton(
-                              backgroundColor: Color(0xFF4C4F5E),
-                              child: Icon(
-                                Icons.add,
-                                color: Colors.white,
-                              ),
+                            RoundIconButton(
+                              plusMinusIcon: FontAwesomeIcons.minus,
+                              onPress: () {
+                                setState(
+                                  () {
+                                    ageData--;
+                                  },
+                                );
+                              },
                             ),
                             SizedBox(
-                              width: 30.0,
+                              width: 10.0,
                             ),
-                            FloatingActionButton(
-                              backgroundColor: Color(0xFF4C4F5E),
-                              child: Icon(
-                                Icons.remove,
-                                color: Colors.white,
-                              ),
-                            )
+                            RoundIconButton(
+                              plusMinusIcon: FontAwesomeIcons.plus,
+                              onPress: () {
+                                setState(
+                                  () {
+                                    ageData++;
+                                  },
+                                );
+                              },
+                            ),
                           ],
                         )
                       ],
@@ -216,11 +232,21 @@ class _InputPageState extends State<InputPage> {
               ],
             ),
           ),
-          Container(
-            margin: EdgeInsets.only(top: 10.0),
-            color: kBottomCardColor,
-            width: double.infinity,
-            height: kBottomContainerHeight,
+          Bottombar(
+            statement: 'CALCULATE',
+            onTap: () {
+              MainLogic ml = MainLogic(weight: weightData, height: heightData);
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => Result(
+                    bmi: ml.getBmi(),
+                    review: ml.getReview(),
+                    remark: ml.getRemark(),
+                  ),
+                ),
+              );
+            },
           ),
         ],
       ),
